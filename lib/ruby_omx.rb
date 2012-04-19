@@ -28,19 +28,17 @@ module RubyOmx
 	
 end
 
-require 'RubyOmx/response'
-require 'RubyOmx/orders'
-require 'RubyOmx/items'
-Dir.glob(File.join(File.dirname(__FILE__), 'RubyOmx/response/*.rb')).each {|f| require f }
+require 'ruby_omx/response'
+require 'ruby_omx/orders'
+require 'ruby_omx/items'
+Dir.glob(File.join(File.dirname(__FILE__), 'ruby_omx/response/*.rb')).each {|f| require f }
 
-require 'RubyOmx/base'
-require 'RubyOmx/version'
-require 'RubyOmx/exceptions'
-require 'RubyOmx/connection'
+require 'ruby_omx/base'
+require 'ruby_omx/version'
+require 'ruby_omx/exceptions'
+require 'ruby_omx/connection'
 
 RubyOmx::Base.class_eval do
   include RubyOmx::Orders
   include RubyOmx::Items
 end
-
-#require_library_or_gem 'xmlsimple', 'xml-simple' unless defined? XmlSimple

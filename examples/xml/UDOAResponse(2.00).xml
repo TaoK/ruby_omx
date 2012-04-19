@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UDOAResponse>
+	<OMX>OMX-ofyccytnacrtnedlldmyed</OMX>
+	<Success>1</Success>
+	<UDOARequest version="2.00">
+		<UDIParameter>
+			<Parameter key="HTTPBizID">yourid</Parameter>
+			<Parameter key="Keycode">PACNETRAVEN</Parameter>
+			<Parameter key="VerifyFlag">False</Parameter>
+			<Parameter key="QueueFlag">False</Parameter>
+		</UDIParameter>
+		<Header>
+			<OrderDate>2003-04-01 22:15:10</OrderDate>
+			<OriginType>3</OriginType>
+			<StoreCode/>
+			<TotalAmount>58.70</TotalAmount>
+			<TotalMerchandise>49.95</TotalMerchandise>
+			<Promotion>PACNETRAVEN</Promotion>
+			<Tax>0.00</Tax>
+			<SH>8.75</SH>
+			<AdditionalSH>0.00</AdditionalSH>
+			<SHTax>0.00</SHTax>
+			<TaxSH>0</TaxSH>
+			<TaxPercentMax>0</TaxPercentMax>
+			<SalesInclTax>0</SalesInclTax>
+			<SHTaxDetail Compounded="False">
+				<Jurisdiction level="1" type="Federal">
+					<TaxPercent>16</TaxPercent>
+					<ItemTax>1.4</ItemTax>
+					<Exemption>True</Exemption>
+				</Jurisdiction>
+				<Jurisdiction level="2" type="State">
+					<TaxPercent>7</TaxPercent>
+					<ItemTax>0.61</ItemTax>
+					<Exemption>True</Exemption>
+				</Jurisdiction>
+				<Jurisdiction level="3" type="County">
+					<TaxPercent>4</TaxPercent>
+					<ItemTax>0.35</ItemTax>
+					<Exemption>True</Exemption>
+				</Jurisdiction>
+				<Jurisdiction level="4" type="City (Municipal)">
+					<TaxPercent>3</TaxPercent>
+					<ItemTax>0.26</ItemTax>
+					<Exemption>True</Exemption>
+				</Jurisdiction>
+			</SHTaxDetail>						
+			<TotalWeight>100</TotalWeight>
+			<OrderNumber>10512</OrderNumber>
+		</Header>
+		<Customer customerNumber="10001">
+			<Address type="BillTo">
+				<TitleCode>0</TitleCode>
+				<Company/>
+				<Firstname>Bill</Firstname>
+				<Lastname>Thomas</Lastname>
+				<Address1>251 West 30th St</Address1>
+				<Address2>Apt 12E</Address2>
+				<City>New York</City>
+				<State>NY</State>
+				<ZIP>10001</ZIP>
+				<TLD>US</TLD>
+				<PhoneNumber/>
+				<Email/>
+				<OriginalAddress1>251 West 30th St</OriginalAddress1>
+				<OriginalAddress2>Apt 12E</OriginalAddress2>
+				<OriginalState>NY</OriginalState>
+				<OriginalCity>New York</OriginalCity>
+				<OriginalZIP>10001</OriginalZIP>
+				<OriginalHouseNo/>
+				<OriginalSubCity/>
+				<OriginalBuilding/>
+				<OriginalApartment/>
+				<OriginalCounty/>
+				<OriginalStreet1>251 West 30th St</OriginalStreet1>
+				<OriginalStreet2>Apt 12E</OriginalStreet2>
+				<HouseNo/>
+				<SubCity/>
+				<Building/>
+				<Apartment/>
+				<County/>
+				<Street1>251 West 30th St</Street1>
+				<Street2>Apt 12E</Street2>
+				<SmartAddressResultCode>40</SmartAddressResultCode>
+				<CustomerNumber>10001</CustomerNumber>
+			</Address>
+			<FlagData>
+				<Flag name="DoNotMail">True</Flag>
+				<Flag name="DoNotCall">True</Flag>
+				<Flag name="DoNotEmail">True</Flag>
+			</FlagData>
+			<Level/>
+		</Customer>
+		<ShippingInformation>
+			<Address type="ShipTo">
+				<TitleCode>0</TitleCode>
+				<Firstname>Maurice</Firstname>
+				<Lastname>Evans</Lastname>
+				<Address1>65 West 83rd St, Apt 4A</Address1>
+				<Address2>
+				</Address2>
+				<City>New York</City>
+				<State>NY</State>
+				<ZIP>10024</ZIP>
+				<TLD>US</TLD>
+				<OriginalAddress1>65 West 83rd St, Apt 4A</OriginalAddress1>
+				<OriginalAddress2/>
+				<OriginalState>NY</OriginalState>
+				<OriginalCity>New York</OriginalCity>
+				<OriginalZIP>10024</OriginalZIP>
+				<OriginalHouseNo/>
+				<OriginalSubCity/>
+				<OriginalBuilding/>
+				<OriginalApartment/>
+				<OriginalCounty/>
+				<OriginalStreet1>65 West 83rd St, Apt 4A</OriginalStreet1>
+				<OriginalStreet2/>
+				<PhoneNumber/>
+				<HouseNo/>
+				<SubCity/>
+				<Building/>
+				<Apartment/>
+				<County/>
+				<Street1>65 West 83rd St, Apt 4A</Street1>
+				<Street2/>
+				<SmartAddressResultCode>40</SmartAddressResultCode>
+			</Address>
+			<MethodCode>0</MethodCode>
+			<ShippingAmount>8.75</ShippingAmount>
+			<HandlingAmount>0.0</HandlingAmount>
+			<SpecialInstructions>Please wrap this carefully</SpecialInstructions>
+			<GiftWrapping>True</GiftWrapping>
+			<GiftMessage>Happy Birthday Mauro!!</GiftMessage>
+		</ShippingInformation>
+		<Payment type="1">
+			<CardNumber>4111111111111111</CardNumber>
+			<CardVerification>222</CardVerification>
+			<CardExpDateMonth>09</CardExpDateMonth>
+			<CardExpDateYear>2006</CardExpDateYear>
+			<CardStatus>11</CardStatus>
+			<CardAuthCode>010101</CardAuthCode>
+			<CardTransactionID>123456789</CardTransactionID>
+			<CardExpDateDay>30</CardExpDateDay>
+			<PaidAmount>0</PaidAmount>
+		</Payment>
+		<OrderDetail>
+			<LineItem lineNumber="1">
+				<ItemCode>A1000</ItemCode>
+				<Quantity>1</Quantity>
+				<ParentQuantity>1</ParentQuantity>
+				<PriceType>U</PriceType>
+				<ProductType>Default</ProductType>
+				<Price>29.95</Price>
+				<TaxPercent>0</TaxPercent>
+				<ItemTax>0</ItemTax>
+				<TotalPrice>29.95</TotalPrice>
+				<TotalLine>29.95</TotalLine>
+				<AdditionalSH>3</AdditionalSH>
+				<Bonus>0</Bonus>
+				<TaxDetail Compounded="False">
+					<Jurisdiction level="1" type="Federal">
+						<TaxPercent>16</TaxPercent>
+						<ItemTax>4.79</ItemTax>
+						<Exemption>True</Exemption>
+					</Jurisdiction>
+					<Jurisdiction level="2" type="State">
+						<TaxPercent>7</TaxPercent>
+						<ItemTax>2.1</ItemTax>
+						<Exemption>True</Exemption>
+					</Jurisdiction>
+					<Jurisdiction level="3" type="County">
+						<TaxPercent>4</TaxPercent>
+						<ItemTax>1.2</ItemTax>
+						<Exemption>True</Exemption>
+					</Jurisdiction>
+					<Jurisdiction level="4" type="City (Municipal)">
+						<TaxPercent>3</TaxPercent>
+						<ItemTax>0.9</ItemTax>
+						<Exemption>True</Exemption>
+					</Jurisdiction>
+				</TaxDetail>
+			</LineItem>
+			<LineItem lineNumber="2">
+				<ItemCode>CA1000</ItemCode>
+				<Quantity>1</Quantity>
+				<ParentQuantity>1</ParentQuantity>
+				<PriceType>U</PriceType>
+				<ProductType>Default</ProductType>
+				<Price>20</Price>
+				<TaxPercent>0</TaxPercent>
+				<ItemTax>0</ItemTax>
+				<TotalPrice>20</TotalPrice>
+				<TotalLine>20</TotalLine>
+				<AdditionalSH>0</AdditionalSH>
+				<Bonus>0</Bonus>
+			</LineItem>
+		</OrderDetail>
+		<CustomFields>
+			<Report>
+				<Field fieldID="2" lineNumber="1">a</Field>
+				<Field fieldID="3" lineNumber="1">a</Field>
+				<Field fieldID="4" lineNumber="1">a</Field>
+				<Field fieldID="5" lineNumber="1">a</Field>
+				<Field fieldID="6" lineNumber="1">a</Field>
+				<Field fieldID="7" lineNumber="1">a</Field>
+				<Field fieldID="2" lineNumber="2">a</Field>
+				<Field fieldID="3" lineNumber="2">a</Field>
+				<Field fieldID="4" lineNumber="2">a</Field>
+				<Field fieldID="5" lineNumber="2">a</Field>
+				<Field fieldID="6" lineNumber="2">a</Field>
+				<Field fieldID="7" lineNumber="2">a</Field>
+			</Report>
+		</CustomFields>
+		<UDIParameter/>
+		<MarketingPolicyResult>
+			<Policy policyID="1"/>
+		</MarketingPolicyResult>
+	</UDOARequest>
+	<ErrorData/>
+</UDOAResponse>

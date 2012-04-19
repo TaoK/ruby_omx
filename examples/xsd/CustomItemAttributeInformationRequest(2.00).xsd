@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="Parameter">
+    <xs:annotation>
+      <xs:documentation>
+        HTTPBizID (required) - This identifies the OrderMotion account, and is normally 255 characters in length. The HTTPBizID for the OrderMotion Test Drive account is "TestHTTPBizID0123456789".
+        ItemCode(required) - Item code.
+        AttributeGroupID - Can be 'All' for any attribute group or a given group ID (digit).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="key" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="HTTPBizID"/>
+            <xs:enumeration value="ItemCode"/>
+            <xs:enumeration value="AttributeGroupID"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UDIParameter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Parameter" minOccurs="3" maxOccurs="3"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Item">
+    <xs:annotation>
+      <xs:documentation>
+        Instead of passing a single ItemCode as a Parameter there can be a list of Items with its itemCode's as attributes.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="itemCode" use="required">
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Items" >
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Item" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CustomItemAttributeInformationRequest">
+    <xs:annotation>
+      <xs:documentation>
+        CustomItemAttributeInformationRequest 2.00
+        This command enables you to retreive custom item attribute information.
+        To use the command send a POST request containing the XML to https://members.ordermotion.com/hdde/xml/udi.asp.
+        The UDIParameters may optionally be passed in the URL instead of XML as
+        https://members.ordermotion.com/hdde/xml/udi.asp?key1=Parameter1&amp;key2=Parameter2
+        Sample request:
+        https://members.ordermotion.com/hdde/xml/udi.asp?RequestType=CustomItemAttributeInformationRequest&amp;RequestVersion=2.00&amp;ItemCode=10100&amp;Wrapper=1&amp;HTTPBizID=TestHTTPBizID0123456789
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="UDIParameter" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="Items" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="version" use="required" type="xs:string" fixed="2.00" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

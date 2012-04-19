@@ -1,0 +1,3 @@
+= RubyOmx
+
+This project uses MIT-LICENSE.

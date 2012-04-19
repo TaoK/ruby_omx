@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2007 (http://www.altova.com) by OMWS08 (N.I.T. Inc.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="Parameter">
+		<xs:annotation>
+			<xs:documentation>
+				HTTPBizID (required) - This identifies the OrderMotion account, and is normally 255 characters in length. The HTTPBizID for the OrderMotion Test Drive account is "TestHTTPBizID0123456789".
+				ItemCode (required)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="key" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="HTTPBizID"/>
+								<xs:enumeration value="ItemCode"/>
+								<xs:enumeration value="Keycode"/>
+								<xs:enumeration value="RetailStoreCode"/>
+								<xs:enumeration value="UPCCode"/>
+								<xs:enumeration value="StandingOrderConfigurationDetail"/>
+								<xs:enumeration value="OutputSubItemAttributes"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UDIParameter">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Parameter" minOccurs="2" maxOccurs="2">
+					<xs:annotation>
+						<xs:documentation>HTTPBizID (required) - This identifies the OrderMotion account, and is normally 255 characters in length. The HTTPBizID for the OrderMotion Test Drive account is "TestHTTPBizID0123456789". 
+
+
+ItemCode
+Required if UPCCode is not passed.
+
+UPCCode
+Required if ItemCode is not passed.
+
+Keycode
+Optional, lets your filter by Keycode.  If provided, the item price will be keycode specific price. 
+
+RetailStoreCode
+Optional, lets you filter by store code.
+
+StandingOrderConfigurationDetail
+Optional, boolean that lets you get more details about the standing order configurations of this item
+
+OutputSubItemAttributes
+Optional, boolean that lets you get more details about the sub-item attributes of this item, if the item is a parent item.
+
+</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ItemInformationRequest">
+		<xs:annotation>
+			<xs:documentation>ItemInformationRequest 1.00 
+
+This command enables you to retreive item information.
+
+To use the command send a POST request containing the XML to https://members.ordermotion.com/hdde/xml/udi.asp.
+
+The UDIParameters may optionally be passed in the URL instead of XML as
+
+https://members.ordermotion.com/hdde/xml/udi.asp?key1=Parameter1&amp;key2=Parameter2
+
+Sample request:
+https://members.ordermotion.com/hdde/xml/udi.asp?RequestType=ItemInformationRequestt&amp;RequestVersion=1.00&amp;HTTPBizID=TestHTTPBizID0123456789&amp;Wrapper=1&amp;ItemCode=01-114
+
+
+
+
+Revision 1 9/18/2006
+
+Added UPCCode</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="UDIParameter"/>
+			</xs:sequence>
+			<xs:attribute name="version" use="required" fixed="1.00">
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

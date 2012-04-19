@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ItemInformationRequest version="1.00">
+    <UDIParameter>
+        <Parameter key="HTTPBizID">TestHTTPBizID0123456789</Parameter>
+        <Parameter key="ItemCode">01-114</Parameter>
+		<Parameter key="OutputSubItemAttributes">True</Parameter>
+    </UDIParameter>
+</ItemInformationRequest>

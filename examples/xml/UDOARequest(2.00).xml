@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<UDOARequest version="2.00">
+	<UDIParameter>
+		<Parameter key="HTTPBizID">TestHTTPBizID0123456789</Parameter>
+		<Parameter key="UDIAuthToken"/>
+		<Parameter key="Keycode">JTESTKEY</Parameter>
+		<Parameter key="VerifyFlag">False</Parameter>
+		<Parameter key="QueueFlag">False</Parameter>
+		<Parameter key="OriginalEntryKeycode">Keycode</Parameter>
+		<Parameter key="CallToAction">call</Parameter>
+		<Parameter key="Vendor">vendor</Parameter>
+	</UDIParameter>
+	<Header>
+		<OrderDate>2003-04-01 22:15:10</OrderDate>
+		<OriginType>3</OriginType>
+		<StoreCode/>
+		<CustomerIP>10.10.10.10</CustomerIP>
+		<Airing>
+			<AiringStation>station</AiringStation>
+			<AiringDate>2003-04-01 22:15:10</AiringDate>
+		</Airing>
+		<LeadNumber>231</LeadNumber>
+	</Header>
+	<Customer>
+		<Address type="BillTo">
+			<TitleCode>0</TitleCode>
+			<Company/>
+			<Firstname>Bill</Firstname>
+			<Lastname>Thomas</Lastname>
+			<Address1>251 West 30th St</Address1>
+			<Address2>Apt 12E</Address2>
+			<City>New York</City>
+			<State>NY</State>
+			<ZIP>10001</ZIP>
+			<TLD>US</TLD>
+			<PhoneNumber/>
+			<Email/>
+		</Address>
+		<FlagData>
+			<Flag name="DoNotMail">True</Flag>
+			<Flag name="DoNotCall">True</Flag>
+			<Flag name="DoNotEmail">True</Flag>
+		</FlagData>
+	</Customer>
+	<ShippingInformation>
+		<Address type="ShipTo">
+			<TitleCode>0</TitleCode>
+			<Firstname>Maurice</Firstname>
+			<Lastname>evans-asdf'fdf</Lastname>
+			<Address1>65 West 83rd St, Apt 4A</Address1>
+			<Address2>
+            </Address2>
+			<City>New York</City>
+			<State>NY</State>
+			<ZIP>10024</ZIP>
+			<TLD>US</TLD>
+		</Address>
+		<MethodCode>0</MethodCode>
+		<ShippingAmount>8.75</ShippingAmount>
+		<HandlingAmount>0.0</HandlingAmount>
+		<SpecialInstructions>Please wrap this carefully</SpecialInstructions>
+		<GiftWrapping>True</GiftWrapping>
+		<GiftMessage>Happy Birthday Mauro!!</GiftMessage>
+	</ShippingInformation>
+	<Payment type="1">
+		<CardNumber>4111111111111111</CardNumber>
+		<CardVerification>222</CardVerification>
+		<CardExpDateMonth>09</CardExpDateMonth>
+		<CardExpDateYear>2011</CardExpDateYear>
+		<CardStatus>11</CardStatus>
+		<CardAuthCode>010101</CardAuthCode>
+		<CardTransactionID>123456789</CardTransactionID>
+		<AdditionalPayment>
+				<Payment type="1">
+					<PaidAmount>12</PaidAmount>
+					<CardNumber>4111111111111111</CardNumber>
+					<CardVerification>222</CardVerification>
+					<CardExpDateMonth>09</CardExpDateMonth>
+					<CardExpDateYear>2011</CardExpDateYear>
+					<CardStatus>11</CardStatus>
+					<CardAuthCode>010101</CardAuthCode>
+					<CardTransactionID>123456789</CardTransactionID>
+				</Payment>
+		</AdditionalPayment>
+	</Payment>
+	<OrderDetail>
+		<LineItem lineNumber="1">
+			<ItemCode>APPLE</ItemCode>
+			<Quantity>1</Quantity>
+			<StandingOrder configurationID="5"/>
+		</LineItem>
+		<LineItem lineNumber="2">
+			<ItemCustomizationData>
+				<CustomizationField fieldID="127">
+					<Value>demoText</Value>
+				</CustomizationField>
+			</ItemCustomizationData>
+			<ItemCode>WATCH</ItemCode>
+			<Quantity>1</Quantity>
+		</LineItem>
+	</OrderDetail>
+	<CustomFields>
+		<Report>
+			<Field fieldID="2" lineNumber="1">a</Field>
+			<Field fieldID="3" lineNumber="1">a</Field>
+			<Field fieldID="4" lineNumber="1">a</Field>
+			<Field fieldID="5" lineNumber="1">a</Field>
+			<Field fieldID="6" lineNumber="1">a</Field>
+			<Field fieldID="7" lineNumber="1">a</Field>
+			<Field fieldID="2" lineNumber="2">a</Field>
+			<Field fieldID="3" lineNumber="2">a</Field>
+			<Field fieldID="4" lineNumber="2">a</Field>
+			<Field fieldID="5" lineNumber="2">a</Field>
+			<Field fieldID="6" lineNumber="2">a</Field>
+			<Field fieldID="7" lineNumber="2">a</Field>
+		</Report>
+	</CustomFields>
+</UDOARequest>

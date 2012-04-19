@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomItemAttributeInformationResponse>
+  <Items>
+    <Item itemCode='00001' active='True'>
+      <AttributeGroup name='cid 9997 group 1' groupID='2'>
+        <Attribute attributeID='3' name='otrofield'>4</Attribute>
+      </AttributeGroup>
+    </Item>
+    <Item itemCode='00002' active='True'>
+      <AttributeGroup name='cid 9997 group 1' groupID='2'>
+        <Attribute attributeID='3' name='otrofield'>44</Attribute>
+      </AttributeGroup>
+    </Item>
+    <Item itemCode='SCBDL' active='True'>
+      <AttributeGroup name='alla' groupID='5'>
+        <Attribute attributeID='1' name='uno'>2</Attribute>
+        <Attribute attributeID='3' name='tes'>3</Attribute>
+        <Attribute attributeID='4' name='checks'>dos,tres,uno</Attribute>
+      </AttributeGroup>
+    </Item>
+  </Items>
+  <Success>1</Success>
+</CustomItemAttributeInformationResponse>

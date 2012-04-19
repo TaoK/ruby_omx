@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="Attribute">
+		<xs:complexType mixed="true">
+			<xs:attribute name="attributeID" type="xs:unsignedInt" use="required"></xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Bundle">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="BundleItem"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BundleItem">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProductName" type="xs:string"></xs:element>
+			</xs:sequence>
+			<xs:attribute name="itemCode" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CrossSell">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CrossSellItem" maxOccurs="unbounded"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CrossSellItem">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProductName" type="xs:string"></xs:element>
+			</xs:sequence>
+			<xs:attribute name="itemCode" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomItemAttribute">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Attribute" maxOccurs="unbounded"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Item">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProductName" type="xs:string"></xs:element>
+				<xs:element name="AvailableInventory" type="xs:int"></xs:element>
+				<xs:element ref="PriceData" minOccurs="0"></xs:element>
+				<xs:element ref="CrossSell" minOccurs="0"></xs:element>
+				<xs:element ref="Substitution" minOccurs="0"></xs:element>
+				<xs:element ref="Bundle" minOccurs="0"></xs:element>
+				<xs:element ref="CustomItemAttribute" minOccurs="0"></xs:element>
+				<xs:element ref="DimensionData" minOccurs="0"></xs:element>
+				<xs:element ref="SubItemCount" minOccurs="0"></xs:element>
+				<xs:element ref="StandingOrder" minOccurs="0"></xs:element>
+				<xs:element ref="PaymentPlanInformation" minOccurs="0"></xs:element>
+				<xs:element name="LastUpdatedDate" type="xs:string"></xs:element>
+				<xs:element name="Weight" type="xs:decimal"></xs:element>
+				<xs:element ref="InfoText" maxOccurs="2"></xs:element>
+				<xs:element ref="SubItems" minOccurs="0"></xs:element>
+			</xs:sequence>
+			<xs:attribute name="itemCode" type="xs:string" use="required"/>
+			<xs:attribute name="active" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="True"></xs:enumeration>
+						<xs:enumeration value="False"></xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="incomplete" use="optional">
+				<xs:simpleType>
+				  <xs:restriction base="xs:string">
+					<xs:enumeration value="True"></xs:enumeration>
+					<xs:enumeration value="False"></xs:enumeration>
+				  </xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="parentItemCode" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Dimension">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Value" maxOccurs="unbounded"></xs:element>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="variationCount" type="xs:int" use="required"></xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DimensionData">
+		<xs:annotation>
+			<xs:documentation>DimensionData presents whole collection of variations for each dimension when the ItemCode is a parent Item.
+											 If Item is subitem presents assigned variation for each dimention</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Dimension" maxOccurs="unbounded"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Value">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Description" type="xs:string"></xs:element>
+				<xs:element name="Surcharge" type="xs:decimal"></xs:element>
+			</xs:sequence>
+			<xs:attribute name="valueID" type="xs:unsignedInt" use="required"></xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SubItemCount" type="xs:unsignedInt">
+		<xs:annotation>
+			<xs:documentation>SubItemCount presents when the ItemCode is a parent Item, for subitems value equals zero</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ItemInformationResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Success"></xs:element>
+				<xs:choice>
+					<xs:element ref="ErrorData"></xs:element>
+					<xs:element ref="Item"></xs:element>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Price">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Amount" type="xs:decimal"></xs:element>
+				<xs:element name="AdditionalSH" type="xs:decimal"></xs:element>
+				<xs:element name="Bonus" type="xs:decimal"></xs:element>
+			</xs:sequence>
+			<xs:attribute name="quantity" type="xs:unsignedInt" use="required"></xs:attribute>
+			<xs:attribute name="multiplier" type="xs:boolean" use="required"></xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PriceData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Price"></xs:element>
+			</xs:sequence>
+			<xs:attribute name="priceType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Unit"></xs:enumeration>
+						<xs:enumeration value="Extended"></xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="quantityType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Restricted"></xs:enumeration>
+						<xs:enumeration value="Free"></xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Substitution">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="SubstitutionItem"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ErrorData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Error" type="xs:string" maxOccurs="unbounded"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Success">
+		<xs:annotation>
+			<xs:documentation>A value of 0 indicates an invalid request, 1 indicates a successful request.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="1"></xs:enumeration>
+				<xs:enumeration value="0"></xs:enumeration>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="SubstitutionItem">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProductName" type="xs:string"></xs:element>
+			</xs:sequence>
+			<xs:attribute name="itemCode" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StandingOrder">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Configuration">
+					<xs:complexType>
+						<xs:sequence>
+
+							<xs:element name="Recurrence">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="patternID" type="xs:string" use="required"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="DiscountPercent" type="xs:decimal"/>
+							<xs:element name="DiscountAmount" type="xs:decimal"/>
+
+
+							<xs:element name="ShipmentDetail">
+								<xs:complexType>
+									<xs:sequence>
+
+										<xs:element name="Shipment">
+											<xs:complexType>
+												<xs:sequence>
+													
+													<xs:element name="OverrideSHMethod">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">
+																	<xs:attribute name="methodCode" type="xs:string" use="required"/>
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+
+													<xs:element name="OverridePaymentPlan">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">			
+																	<xs:attribute name="paymentPlanID" type="xs:string" use="required"/>
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+
+													<xs:element name="ReplacementItem">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">		
+																	<xs:attribute name="itemCode" type="xs:string" use="required"/>
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+
+													<xs:element name="OverrideSHAmount" type="xs:decimal"/>
+													<xs:element name="QuantityMultiplier" type="xs:decimal"/>
+													<xs:element name="OverridePrice" type="xs:decimal"/>
+
+													<xs:element name="ExtraItem">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="ExtraItem">
+
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="xs:string">	
+																				<xs:attribute name="itemCode" type="xs:string" use="required"/>
+																				<xs:attribute name="quantity" type="xs:int" use="required"/>
+																				<xs:attribute name="unitPrice" type="xs:decimal" use="required"/>
+																				<xs:attribute name="multiplyQuantity" type="xs:boolean" use="required"/>
+																			</xs:extension>
+																		</xs:simpleContent>
+																	</xs:complexType>
+
+																</xs:element>
+
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+
+												</xs:sequence>
+											
+												<xs:attribute name="shipmentID" type="xs:string"/>
+												
+											</xs:complexType>
+										</xs:element>
+
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+						</xs:sequence>
+
+						<xs:attribute name="configurationID" type="xs:string" use="required"/>
+						<xs:attribute name="name" type="xs:string" use="required" />
+						<xs:attribute name="active" type="xs:boolean" use="required" />
+
+					</xs:complexType>
+				</xs:element>
+
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PaymentPlanInformation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PaymentPlan" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="planID" type="xs:positiveInteger" use="required"/>
+						<xs:attribute name="name" type="xs:string" use="required"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InfoText">
+		<xs:complexType mixed="true">
+			<xs:attribute name="type" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="HTML"/>
+						<xs:enumeration value="PlainText"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SubItems">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SubItem" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ItemDimension" maxOccurs="unbounded"/>
+							<xs:element name="Available" type="xs:int"/>
+							<xs:element name="UPCCode" type="xs:string"/>
+							<xs:element name="NextExpectedDeliveryDate" type="xs:date"/>
+							<xs:element ref="AttributeData" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attribute name="itemCode" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string"/>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ItemDimension">
+		<xs:complexType mixed="true">
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AttributeData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Attribute" maxOccurs="unbounded">
+					<xs:complexType mixed="true">
+						<xs:attribute name="name" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string"/>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

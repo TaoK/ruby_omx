@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Erin Butler (CommercialWare, Inc.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="Attribute">
+		<xs:complexType>
+			<xs:attribute name="attributeID" type="xs:positiveInteger" use="required"/>
+			<xs:attribute name="name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ErrorData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Error" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Error">
+		<xs:simpleType>
+			<xs:restriction base="xs:string"/>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="CustomItemAttributeInformationResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:annotation>
+						<xs:documentation>If Success = 0 then the ErrorData element will be displayed, otherwise the Items element will be displayed.</xs:documentation>
+					</xs:annotation>
+					<xs:element ref="Items"/>
+					<xs:element ref="ErrorData"/>
+				</xs:choice>
+				<xs:element ref="Success"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Item">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element ref="AttributeGroup" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+			<xs:attribute name="itemCode" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="active" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="True"/>
+						<xs:enumeration value="False"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+  <xs:element name="AttributeGroup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Attribute" minOccurs="1" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="groupID" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+	<xs:element name="Items">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Item"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Success">
+		<xs:annotation>
+			<xs:documentation>A value of 0 indicates an invalid request, 1 indicates a successful request.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="1"/>
+				<xs:enumeration value="0"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+</xs:schema>

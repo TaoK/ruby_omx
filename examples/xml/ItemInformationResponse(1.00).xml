@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ItemInformationResponse>
+	<Item itemCode="01-114" active="True" incomplete="False" parentItemCode="01">
+		<ProductName>Driver</ProductName>
+		<AvailableInventory>1130</AvailableInventory>
+		<SubItemCount>0</SubItemCount>
+		<LastUpdatedDate>2011-05-11 16:12:36</LastUpdatedDate>
+		<Weight>0</Weight>
+		<InfoText type="PlainText">Driver simple description.</InfoText>
+		<InfoText type="HTML">&lt;p&gt;&lt;em&gt;Driver long description&lt;/em&gt;&lt;/p&gt;&lt;p&gt;Click to see more&lt;/p&gt;</InfoText>
+		<DimensionData>
+			<Dimension name="Shaft Type" variationCount="1">
+				<Value valueID="4">
+					<Description>blue</Description>
+					<Surcharge>0</Surcharge>
+				</Value>
+				<Value valueID="5">
+					<Description>red</Description>
+					<Surcharge>0.02</Surcharge>
+				</Value>
+			</Dimension>
+		</DimensionData>		
+		<PriceData priceType="Unit" quantityType="Restricted">
+			<Price quantity="1" multiplier="True">
+				<Amount>2.02</Amount>
+				<AdditionalSH>1.20</AdditionalSH>
+				<Bonus>0.00</Bonus>
+			</Price>
+		</PriceData>
+		<CrossSell>
+			<CrossSellItem itemCode="01-112">
+				<ProductName>Driver</ProductName>
+			</CrossSellItem>
+			<CrossSellItem itemCode="01-116">
+				<ProductName>Driver</ProductName>
+			</CrossSellItem>
+		</CrossSell>
+		<Substitution>
+			<SubstitutionItem itemCode="10101-XYZ">
+				<ProductName>Control For Kids</ProductName>
+			</SubstitutionItem>
+		</Substitution>
+		<Bundle>
+			<BundleItem itemCode="WOH-P1">
+				<ProductName>WOH P1</ProductName>
+			</BundleItem>
+		</Bundle>
+		<CustomItemAttribute>
+			<Attribute attributeID="1">MYAttribute1</Attribute>
+			<Attribute attributeID="2">big</Attribute>
+			<Attribute attributeID="3">Costco Store</Attribute>
+			<Attribute attributeID="9">10.00</Attribute>
+			<Attribute attributeID="10">30.00</Attribute>
+			<Attribute attributeID="11">5.25</Attribute>
+		</CustomItemAttribute>
+		<SubItems>
+			<SubItem itemCode="01-0010">
+				<ItemDimension name="Shaft Type">4</ItemDimension>
+				<Available>1000</Available>
+				<UPCCode />
+				<NextExpectedDeliveryDate />
+				<AttributeData>
+				  <Attribute name="Attr1">value 1</Attribute>
+				  <Attribute name="Attr2">value 2, value 2, value 2</Attribute>
+				</AttributeData>
+			</SubItem>
+			<SubItem itemCode="01-009">
+				<ItemDimension name="Shaft Type">5</ItemDimension>
+				<Available>1000</Available>
+				<UPCCode />
+				<NextExpectedDeliveryDate />
+			</SubItem>
+		</SubItems>
+	</Item>
+	<Success>1</Success>
+</ItemInformationResponse>

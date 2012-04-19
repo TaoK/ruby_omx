@@ -1,0 +1,1453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 U (http://www.altova.com) by OMWS08 (N.I.T. Inc.) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xsd:element name="UDOARequest">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+The UDOARequest UDI command can be used to create a new order in OrderMotion.
+
+This document outlines the required XML format for creation of new orders in 
+OrderMotion, outlining all available elements, their meaning, and use.
+
+The URL to use for all UDI requests is as follows:
+https://members.ordermotion.com/hdde/xml/udi.asp
+ 
+For additional information please contact OrderMotion support at 
+support@ordermotion.com
+  
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="UDIParameter">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">
+This section contains OrderMotion UDI Parameters that can be either included in the XML submitted,
+or as key/value pairs in the UDI submission querystring. These include account identification 
+information (HTTPBizID) and Keycode for the order.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Parameter" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Available Parameters for UDI UDOA version 2 requests are:
+
+HTTPBizID (required if UDIAuthToken is not provided) - This identifies the OrderMotion account, and is normally 255 characters 
+   in length. The HTTPBizID for the OrderMotion Test Drive account is "TestHTTPBizID0123456789".
+
+UDIAuthToken (required if HTTPBizID is not provided)- This is the token that authorizes the UDI call. The token can be issued by an OMX administrator in the Setup section.
+
+Keycode (required) - The Keycode represents the "promotion", or "marketing push" that this order 
+   comes in under. The keycode needs to be set up in OrderMotion for an order to be valid.
+   
+QueueFlag - Determines whether any orders with errors will be stored in the OrderMotion "Outside Order Queue",
+   to be corrected by an OrderMotion user before resubmission. If set to "True", almost all orders will be 
+   accepted by OrderMotion, but additional order information will only be returned in the response if the order 
+   is successfully placed. Otherwise, any order with any error (eg invalid ZIP code) will be rejected. 
+
+VerifyFlag - Determines whether a successful order should be saved, or only verified/calculated. When set to 
+   "True", OrderMotion will behave as if the order was placed, but not return an Order Number in the response.
+
+CallToAction - This is a free from string with up to 50 chars that identifies the "Call to Action" (such as an 800 number, a banner ID, etc.). This field is stored in the Order Header of OMX and available in Ad-Hoc Reporting.
+
+Vendor - This is a a free form string with up to 50 chars that identifies the "Vendor" to be credited for the order (such as the telemarkeitng center, site the banner is on, etc.). This field is stored in the Order Header of OMX and available in Ad-Hoc Reporting.
+
+AllowFailedPaymentProcessing</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:simpleContent>
+										<xsd:extension base="xsd:string">
+											<xsd:attribute name="key" type="xsd:string" use="required" form="unqualified"/>
+										</xsd:extension>
+									</xsd:simpleContent>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="Header">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">
+The "Header" element contains overall information about the order. Once the order is placed in 
+OrderMotion, the XML response contains the original order with additional information, and 
+additional information is available in the "Header" element, such as the assigned Order Number,
+The total amount of the order, etc.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="OrderDate" type="OMDate" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+The order date should be in the form "CCYY-MM-DD hh:mm". This is the 
+original date and time the order was placed. It can be used for more accurate reporting 
+in OrderMotion when analysing time-sensitive marketing statistics, etc.
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+
+
+
+							<xsd:element name="OriginType">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+The Origin Type of the order represents the sales channel channel - usually "3", for "Internet Order".
+
+Possible values include:
+1 - Mail order (with Batch)
+2 - Phone order
+3 - Internet order
+4 - Walk-in order
+5 - Mobile order
+6 - Mail order (without batch)
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:positiveInteger">
+										<xsd:enumeration value="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">Mail Order (with batch)</xsd:documentation>
+											</xsd:annotation>
+										</xsd:enumeration>
+										<xsd:enumeration value="2">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">Phone Order</xsd:documentation>
+											</xsd:annotation>
+										</xsd:enumeration>
+										<xsd:enumeration value="3">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">Internet Order</xsd:documentation>
+											</xsd:annotation>
+										</xsd:enumeration>
+										<xsd:enumeration value="4">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">Walk-In Order</xsd:documentation>
+											</xsd:annotation>
+										</xsd:enumeration>
+										<xsd:enumeration value="5">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">Mobile Order</xsd:documentation>
+											</xsd:annotation>
+										</xsd:enumeration>
+										<xsd:enumeration value="6">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">Mail Order (without batch)</xsd:documentation>
+											</xsd:annotation>
+										</xsd:enumeration>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="InquiryFlag" type="TrueFalse" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+The InquiryFlag can be set to true if this order is an inquiry, e.g. a catalog request.
+This means that the "ShippingInformation", "Payment" and "OrderDetail" elements are 
+ignored. For "ShippingInformation" and "OrderDetail" appropriate defaults values are 
+used from the Keycode setup in OrderMotion, and the "Payment" for inquiry orders is
+"Free".
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="OrderID" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+OrderID issued by the shopping cart/order-taking system, can be used to later look 
+up the order in OrderMotion. Also serves to prevent duplicate order submission. 
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:minLength value="0"/>
+										<xsd:maxLength value="25"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="StoreCode" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Store Code for the shopping cart submitting the order. Prevents conflicts when multiple
+shopping carts are submitting orders with OrderID into the same OrderMotion account.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:minLength value="0"/>
+										<xsd:maxLength value="35"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+
+							<xsd:element name="Username" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+"PIN" ID of the staff member who took the order - allows tracking of order-taking, and sales
+reporting by user.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:minLength value="0"/>
+										<xsd:maxLength value="50"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="SiteID" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+"SiteID and "ClickID" are used for basic affiliate reporting. As the field names suggest, 
+SiteID is a unique code representing the affiliate, and "ClickID" is the unique ID of the 
+customer's click to your site/products. OrderMotion does not perform any validation on these 
+IDs, including deduplication. In order to prevent duplicate submission of orders, please 
+ensure that you use the StoreCode and OrderID fields.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:minLength value="0"/>
+										<xsd:maxLength value="10"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="ClickID" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Please see the "SiteID" documentation section above for details.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:minLength value="0"/>
+										<xsd:maxLength value="10"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="BatchNumber" type="xsd:positiveInteger" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Batch number for upload of batched mail orders. Batches must be set up in OrderMotion before 
+upload of batched mail orders is possible.
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="BatchDate" type="OMDate" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Batch date for upload of batched mail orders.
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="Reference" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation>Additional order information.</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:maxLength value="255"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="OMUsername" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:maxLength value="50"/>
+										<xsd:minLength value="0"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="RetailStoreCode" type="xsd:positiveInteger" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation>Retail Store Code for store order. 
+</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+
+
+							<xsd:element name="CustomerIP" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en"> This field can be used to store the customers (end consumers) IP address. This address can be passed into fraud tools for additional fraud protection.</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:minLength value="0"/>
+										<xsd:maxLength value="20"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+
+
+							<xsd:element name="Airing" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="AiringStation" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">This field can be used to store any string   of up to 50 chars to identify the Airing and Station. This field should match the same format as the Media Airing data in OMX.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:simpleType>
+													<xsd:restriction base="xsd:string">
+														<xsd:minLength value="0"/>
+														<xsd:maxLength value="50"/>
+													</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<xsd:element name="AiringDate" type="OMDate" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">This field can be used to store a valid date to identify the date of an Airing.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							
+							<xsd:element name="LeadNumber" type="xsd:positiveInteger" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+										The Lead Number assigned to the order. The lead will be converted to this order and its status will change as well.
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="Customer">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">
+Customer Billing Address and additional information.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Address" type="AddressData">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Unless a CustomerNumber is included, OrderMotion will attempt to match Customer's Address 
+details against existing customers in the account based on Firstname, Lastname, Address1 
+and ZIP. 
+The "Address" element in the "Customer" element should have the "type" attribute set to
+"BillTo". If an "Address" element is included in the "ShippingInformation", its "type"
+should be "ShipTo".
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="Username" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+A username to be stored with the customer records - for example with a website where 
+a returning customer will have access to information relating to a previous order. 
+This username with password can then be used to retrieve the customer number for 
+a later order.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:minLength value="1"/>
+										<xsd:maxLength value="20"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="Password" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Password to be stored with the username.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:minLength value="1"/>
+										<xsd:maxLength value="20"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="OverwriteKeycode" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+This allows you to set an overwrite for this customer - all  orders for that customer 
+(including this order) will use the keycode properties of that overwrite keycode. This 
+can be limited to only the pricing aspects of the keycode (with type 1) or all order-
+entry-related aspects of the keycode.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:simpleContent>
+										<xsd:extension base="xsd:string">
+											<xsd:attribute name="type" use="required">
+												<xsd:simpleType>
+													<xsd:restriction base="xsd:string">
+														<xsd:enumeration value="0"/>
+														<xsd:enumeration value="1"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:attribute>
+										</xsd:extension>
+									</xsd:simpleContent>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="FlagData" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="Flag" maxOccurs="unbounded">
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="TrueFalse">
+														<xsd:attribute name="name" use="required">
+															<xsd:simpleType>
+																<xsd:restriction base="xsd:string">
+																	<xsd:enumeration value="DoNotMail"/>
+																	<xsd:enumeration value="DoNotEmail"/>
+																	<xsd:enumeration value="DoNotCall"/>
+																	<xsd:enumeration value="Nixie"/>
+																	<xsd:enumeration value="BadDebt"/>
+																	<xsd:enumeration value="DoNotRent"/>
+																	<xsd:enumeration value="Deceased"/>
+																	<xsd:enumeration value="Business"/>
+																	<xsd:enumeration value="NoAVS"/>
+																</xsd:restriction>
+															</xsd:simpleType>
+														</xsd:attribute>
+													</xsd:extension>
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+						<xsd:attribute name="customerNumber" type="xsd:positiveInteger" use="optional">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">
+This attribute can be used to force OrderMotion to append the order to a specific
+customer. The customer's OrderMotion Customer Number must be used. If the customer
+number is passed, the customer's billing details will be overwritten with the details 
+in the UDOA order, including phone and email information.
+When the customer number is passed, the billing address is optional (as well as the 
+shiping address, which is always optional). 
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="ShippingInformation" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">
+Shipping address, shipping method, and additional shipping options.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Address" type="AddressData" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+If an "Address" element is included in the "ShippingInformation", its "type" should be 
+"ShipTo".
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:choice>
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+To determine which shipping method should be used for the order, either the name of the 
+shipping method, or the OrderMotion shipping method ID must be submitted. If the name of 
+the shipping method is used, it must match the name of the method in OrderMotion exactly.
+The shipping methods available and their names can be set up by an administrator in the 
+OrderMotion account.
+
+Custom Carrier Shipping Mehods are not currently supported through the UDOA.  
+Orders with Custom Carrier Shipping Methods will not pass validation.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:element name="MethodName" type="xsd:string"/>
+								<xsd:element name="MethodCode" type="xsd:nonNegativeInteger"/>
+							</xsd:choice>
+							<xsd:element name="ShippingAmount" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Shipping costs to be charged for this order. If this and the HandlingAmount are omitted, 
+OrderMotion will calculate th shipping and handling costs according to the costs and 
+policies set up in the OrderMotion account, in addition to any Carrier-calculated costs.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:float">
+										<xsd:minInclusive value="0"/>
+										<xsd:maxInclusive value="99999"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="HandlingAmount" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Handling costs to be charged for this order. If this and the ShippingAmount are omitted, 
+OrderMotion will calculate th shipping and handling costs according to the costs and 
+policies set up in the OrderMotion account, in addition to any Carrier-calculated costs.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:float">
+										<xsd:minInclusive value="0"/>
+										<xsd:maxInclusive value="99999"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="SpecialInstructions" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Additional Shipping instructions provided by the customer, or a staff member. These
+can be made to print on the Invoice/Packing List.
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:minLength value="0"/>
+										<xsd:maxLength value="255"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="GiftWrapping" type="TrueFalse" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+When set to "True", all prices are $0.00 on packing slips.
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="GiftMessage" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:minLength value="0"/>
+										<xsd:maxLength value="255"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element ref="Payment" minOccurs="0"/>
+				<xsd:element name="OrderDetail" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">
+The detail of the items ordered.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="LineItem" maxOccurs="300">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="PaymentPlanID" type="xsd:positiveInteger" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+Defines which payment plan should be applied to the order, referenced by payment plan ID. Payment plans 
+should be set up in the OrderMotion account, and should be enabled in the Keycode being used. Payment 
+Plans can only be used with Credit Card or Electronic Check orders.
+												</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="ItemCode" type="OMItemCode">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+If a gift certifcate is used, the quantity should be 1. If user orders mutliple gift certificates, this can be done by repeating order line.
+
+For normal items, a given ItemCode can only appear once per order.
+												</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="Dimension" minOccurs="0" maxOccurs="unbounded">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+"Dimension" values can be submitted for items with sub-items, to have OrderMotion automatically identify 
+the specific sub-item that is being ordered. 
+
+This mechanism also works for Item Customizations. If a "Dimension" name is not recognized as a sub-item
+dimension then OrderMotion will look for a matching Customization assigned to the item (individually, 
+as part of a shared group on the item or as part of a shared group on the keycode).
+
+Any Dimension names that are not found as either subitem dimensions or as item customizations will be 
+appended to the the general-purpose orderline "Info" field.
+
+If a given combination of recognized "Dimension" names and values is insufficient to uniquely identify a 
+sub-item of the item code given, an error will be generated and the order will not be accepted.
+
+Please note, Item Customizations can instead be submitted separately in their own "ItemCustomizationData"
+section.
+												</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string">
+														<xsd:attribute name="name" type="xsd:string"/>
+													</xsd:extension>
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="Quantity">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:positiveInteger">
+													<xsd:maxInclusive value="99999"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<xsd:element name="UnitPrice" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+Allows you to override the pricing set up in OrderMotion. Regardless of whether the item is set up 
+with "unit" or "extended" prices in OrderMotion, the unit price defined in this tag will be used 
+when it is included. This can be used to reduce the number of "Outside Orders" in OrderMotion due 
+to price mismatches between the order submission system and the OrderMotion account. It can also be 
+used to pass special coupons, eg 10% off the order. The value of the coupon should be calculated in 
+the cart, and then passed to OrderMotion as a number, e.g. "-4.56". It is not recommended to enable 
+this tag by default, as it makes it very easy to have inconsistent prices between the shopping cart 
+and OrderMotion, and can lead to customer dissatisfaction when it is not controlled and intentional. 
+This element should not be specified at the same time as the "ExtendedPrice" element. When this 
+element is specified, the completed order in the system will show a warning indicating that the price 
+was forced, and will not be automatically recalculated.
+												</xsd:documentation>
+											</xsd:annotation>
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:float">
+													<xsd:minInclusive value="-999999"/>
+													<xsd:maxInclusive value="999999"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<xsd:element name="ExtendedPrice" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+Allows you to override the pricing set up in OrderMotion. Regardless of whether the item is set up 
+with "unit" or "extended" prices in OrderMotion, the extended price defined in this tag will be used 
+when it is included. This can be used to reduce the number of "Outside Orders" in OrderMotion due 
+to price mismatches between the order submission system and the OrderMotion account. It can also be 
+used to pass special coupons, eg 10% off the order. The value of the coupon should be calculated in 
+the cart, and then passed to OrderMotion as a number, e.g. "-4.56". It is not recommended to enable 
+this tag by default, as it makes it very easy to have inconsistent prices between the shopping cart 
+and OrderMotion, and can lead to customer dissatisfaction when it is not controlled and intentional. 
+This element should not be specified at the same time as the "UnitPrice" element. When this element 
+is specified, the completed order in the system will show a warning indicating that the price was 
+forced, and will not be automatically recalculated.
+												</xsd:documentation>
+											</xsd:annotation>
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:float">
+													<xsd:minInclusive value="-999999"/>
+													<xsd:maxInclusive value="999999"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<xsd:element name="Info" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+Up to 255 characters additional info for each line item. 
+
+Normally The "ItemCustomizationData" should be used in preference to submitting information in this
+field - Item Customizations are a much more powerful way of handling additiona information on 
+OrderLines, including pricing/surcharge control, powerful validation, reporting, fulfillment 
+filtering and much more.
+												</xsd:documentation>
+											</xsd:annotation>
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:minLength value="0"/>
+													<xsd:maxLength value="255"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<xsd:element name="Recurrence" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+This element allows you to specify a recurrence pattern to be applied to the order line, 
+thereby making it a standing (continuity) order. The available recurrence patterns 
+available for any one item are set up in the OrderMotion account. The only required 
+information is the patternID.
+												</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string">
+														<xsd:attribute name="patternID" type="xsd:string"/>
+													</xsd:extension>
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="WaitDate" type="OMDate" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+This element enables you to set the line to "Waiting" for a specific date. This can be used
+to create orders that should not ship for a certain period of time, or standing orders 
+that will only begin at a cartain pre-defined time. The order is still a normal order, however, 
+so if enabled, "New Order" e-mail notifications will still be sent out.
+												</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="LineStatus" default="0" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+Allows you to override the line status of an order line, for example if one of the products is a virtual 
+item and was already "Shipped" by the shopping cart. Where relevant you would also want to pass the 
+amount paid. Status codes are as follows:
+0 = Pending (Default)
+5 = On Hold
+6 = Review
+10 = released
+20 = Back-Ordered
+40 = Shipped
+90 = Cancelled (Price should be set to 0).
+
+Note 1: Orders submitted to OrderMotion as already fully shipped (all lines linestatus 40 or 
+above) should have a shipping and handling value of 0.00. Any shipping and handling submitted with 
+fully pre-shipped orders will never be automatically booked as a "sale" in the company's accounts.
+
+Note 2: The "LineStatus" element should not be submitted at the same time as the "WaitDate" or 
+"Recurrence" elements. 
+
+												</xsd:documentation>
+											</xsd:annotation>
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:nonNegativeInteger">
+													<xsd:enumeration value="0">
+														<xsd:annotation>
+															<xsd:documentation xml:lang="en">Pending</xsd:documentation>
+														</xsd:annotation>
+													</xsd:enumeration>
+													<xsd:enumeration value="5">
+														<xsd:annotation>
+															<xsd:documentation xml:lang="en">On Hold</xsd:documentation>
+														</xsd:annotation>
+													</xsd:enumeration>
+													<xsd:enumeration value="6">
+														<xsd:annotation>
+															<xsd:documentation xml:lang="en">Review</xsd:documentation>
+														</xsd:annotation>
+													</xsd:enumeration>
+													<xsd:enumeration value="10">
+														<xsd:annotation>
+															<xsd:documentation xml:lang="en">Released</xsd:documentation>
+														</xsd:annotation>
+													</xsd:enumeration>
+													<xsd:enumeration value="20">
+														<xsd:annotation>
+															<xsd:documentation xml:lang="en">Back-Ordered</xsd:documentation>
+														</xsd:annotation>
+													</xsd:enumeration>
+													<xsd:enumeration value="40">
+														<xsd:annotation>
+															<xsd:documentation xml:lang="en">Shipped</xsd:documentation>
+														</xsd:annotation>
+													</xsd:enumeration>
+													<xsd:enumeration value="90">
+														<xsd:annotation>
+															<xsd:documentation xml:lang="en">Cancelled</xsd:documentation>
+														</xsd:annotation>
+													</xsd:enumeration>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:element>
+										<xsd:element name="ShippedDate" type="OMDate" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation>ShippedDate is used for, for example, POS order. LineStatus must be set to 40 - Shipped.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+
+
+
+										<xsd:element name="StandingOrder" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation>This field can be used to specify a standing order configuration ID for the respective order line, thereby making it a standing (continuity) order. The available Ids are set up in the OMX account and need to be assigned to the item!</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string">
+														<xsd:attribute name="configurationID" type="xsd:string"/>
+														<xsd:attribute name="configurationName" type="xsd:string"/>
+													</xsd:extension>
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+
+
+
+
+
+										<xsd:element name="ItemCustomizationData" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+This is where the Item Customizations for this Order Line should normally be specified. Each
+field / Customization can be referenced by its "Field ID" or by the customization name.
+
+Surcharges will be calculated as required based on the values selected.
+
+Any customizations that are not recognized (because the field ID does not exist or is not assigned 
+to the item, or the fieldname does not match any fields assigned to the item) will be ignored.
+
+If a required customization for a given item is omitted, the order will not be accepted. This behaviour 
+can be disabled with a company parameter, "Legacy.UDOASkipCustomizationRequirement". Please note, this 
+is NOT a UDI Parameter - this is a parameter that must be enabled at the company level in order for it 
+to take effect. Please contsct an OrderMotion administrator if it is required. (if you need ot be able 
+to accept orders that have missing customizations, that would be required in the UI Order Entry).
+
+For "Picklist" and "Checklist" fields, the values must be provided in full text (not the "ID" of the 
+value), and must match the value text/name in OrderMotion exactly. In the case of PickLists, multiple 
+values can be submitted in multiple "Value" elements.
+												</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:sequence>
+													<xsd:element name="CustomizationField" minOccurs="0" maxOccurs="100">
+														<xsd:annotation>
+															<xsd:documentation xml:lang="en">
+Single Customization on the item - there could be any number of these. They must be assigned to the 
+item in OrderMotion, otherwise the fields will be ignored.
+															</xsd:documentation>
+														</xsd:annotation>
+														<xsd:complexType>
+															<xsd:sequence>
+																<xsd:element name="Value" type="xsd:string" minOccurs="1" maxOccurs="100">
+																	<xsd:annotation>
+																		<xsd:documentation xml:lang="en">
+The plain-text value the consumer selected for this customization. In the case of picklists, 
+multiple values may be provided. 
+																		</xsd:documentation>
+																	</xsd:annotation>
+																</xsd:element>
+															</xsd:sequence>
+															<xsd:attribute name="fieldID" type="xsd:positiveInteger" use="optional">
+																<xsd:annotation>
+																	<xsd:documentation xml:lang="en">
+The fieldID attribute is optional, as long as the fieldName attribute is provided instead.
+																	</xsd:documentation>
+																</xsd:annotation>
+															</xsd:attribute>
+															<xsd:attribute name="fieldName" type="xsd:string" use="optional">
+																<xsd:annotation>
+																	<xsd:documentation xml:lang="en">
+The fieldName attribute is optional, as long as the fieldID attribute is provided instead.
+																	</xsd:documentation>
+																</xsd:annotation>
+															</xsd:attribute>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="CustomFields" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Demographics" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="DateOfBirth" type="xsd:string" minOccurs="0"/>
+										<xsd:element name="PlaceOfBirth" minOccurs="0">
+											<xsd:complexType>
+												<xsd:sequence>
+													<xsd:element name="City" type="xsd:string"/>
+													<xsd:element name="State" type="xsd:string"/>
+													<xsd:element name="TLD" type="xsd:string"/>
+													<xsd:element name="Code" type="xsd:string"/>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="Report" minOccurs="0">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="Field" maxOccurs="unbounded">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">
+Custom fields (when set up in OrderMotion) can be used to submit additional data about Customers or Orders 
+that does not correspond to any existing OrderMotion fields. When submitting custom field data the field ID 
+of the custom field (as set up in OrderMotion) can be used, OR the Field Name can be used instead. 
+
+OrderLine Custom Fields (with the lineNumber attribute) have been deprecated in favour of Item Customizations.
+Submitting OrderLine Custom Fields in this section is still possible, but not officially supported by OrderMotion.
+Please use the new "ItemCustomizationData" element within the LineItem to submit Item Customization (OrderLine 
+Custom Field) information in future.
+												</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:simpleContent>
+													<xsd:extension base="xsd:string">
+														<xsd:attribute name="fieldID" type="xsd:positiveInteger" use="optional"/>
+														<xsd:attribute name="lineNumber" type="xsd:positiveInteger" use="optional"/>
+														<xsd:attribute name="fieldName" type="xsd:string" use="optional"/>
+													</xsd:extension>
+												</xsd:simpleContent>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="Check" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">
+Additional checks to ensure order validity.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="TotalAmount" type="xsd:float">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">
+Total order amount including shipping, taxes, etc. When included, the TotalAmount is checked against the 
+order total calculated by OrderMotion. If there is a difference of more than 3 cents, the order is rejected 
+(or placed in the outside order queue). This is highly recommended in order to avoid the situation where the 
+totals that are displayed to the customer in the shopping cart are not the same as the totals calculated 
+(and charged) by OrderMotion.
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="version" use="required">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+The version attribute is required, in order to ensure backwards compatibility upon the release of future
+UDOA versions.
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="2.00"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="AddressData">
+		<xsd:sequence>
+			<xsd:element name="TitleCode">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+Customer's title, also used to identify gender in some instances:
+0 = Unknown
+1 = Mr
+2 = Mrs
+3 = Ms
+4 = Miss
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:maxInclusive value="4"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Company" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0"/>
+						<xsd:maxLength value="50"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Firstname">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0"/>
+						<xsd:maxLength value="50"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="MidInitial" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0"/>
+						<xsd:maxLength value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Lastname">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0"/>
+						<xsd:maxLength value="50"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Address1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0"/>
+						<xsd:maxLength value="50"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Address2" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0"/>
+						<xsd:maxLength value="50"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="City">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0"/>
+						<xsd:maxLength value="50"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="State" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+The "State" field is required for all countries that are registered in OrderMotion as having postal states. 
+A list of the countries and their state codes should have been provided as part of the integration materials,
+and is available from OrderMotion support upon request.
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0"/>
+						<xsd:maxLength value="5"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ZIP">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+The "ZIP" field is validated for many countries, and invalid ZIP (or postal) codes will result in rejection
+of orders. A list of countries and their ZIP code formats should have been provided as part of the integration 
+materials, and is available from OrderMotion support upon request.
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:minLength value="0"/>
+						<xsd:maxLength value="10"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="TLD">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+TLD (top level domain) is the standard ISO-3166 country code. An exception is that the United Kindom 
+of Great Britain and Northern Ireland = UK (rather than the ISO-3166 standard GB). This follows the 
+Internet TLD practice. A list of countries and their TLD codes should have been provided as part of the 
+integration materials, and is available from OrderMotion support upon request.
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:length value="2"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="PhoneNumber" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Email" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="HouseNo" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="SubCity" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Building" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Apartment" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Country" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="MSISDN" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Mobile phone number.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="type">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+Address "type" should be "BillTo" in the "Customer" section, or "ShipTo" in the "ShippingInformation" 
+section.
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="BillTo"/>
+					<xsd:enumeration value="ShipTo"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="TrueFalse">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="True"/>
+			<xsd:enumeration value="False"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OMDate">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+Dates are almost the same as the W3C Schema "date" type, but with a space 
+instead of the "T" separating the date from the time.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d(\.\d\d\d)?)?)?)?"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OMItemCode">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+Item codes can be up to 15 characters long, composed of letters, digits,
+periods and hyphens
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Za-z0-9\.\-!$+/:@\\\^\-{}~]{1,50}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="PaidAmount">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:float">
+				<xsd:minInclusive value="0"/>
+				<xsd:maxInclusive value="99999"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="Payment">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+The elements required in the Payment section depend on the payment "type" attribute. Please see the list 
+below for details.
+						</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">
+The elements required in the Payment section depend on the payment "type" attribute. Please see the list 
+below for details.
+
+Payment type:
+
+0 - Free: No additional information required;
+1 - Credit Card: A number of required and optional fields are included for credit card orders. Please see below for details; 
+2 - Cash: Paid Amount required;
+3 - Check: Paid Amount and Check Number required; 
+4 - Money Order: Paid Amount and Check Number (Money Order Number) required;
+5 - C.O.D. : No additional information required;
+6 - Open Invoice: No additional information required;
+7 - Electronic Check: Bank Account Number and Bank Routing Number required;
+8 - Other: Paid Amount required;
+10 - Pre-Bil:  No additional information required;
+11 - Gift Certificate. GiftCertificateCode and PaidAmount required;
+13 - PayPal: Paid Amount and TransactionID required.
+16 - External Gift Certificate: GiftCertificateCode and PaidAmount required;
+  
+							</xsd:documentation>
+					</xsd:annotation>
+					<xsd:sequence>
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+This sequence applies to orders with payment type 1 - credit card.
+									</xsd:documentation>
+						</xsd:annotation>
+						<xsd:element name="CardNumber"  minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">
+Includes the check digit at end but no spaces or hyphens [ISO 7812].  The Max given, 19, is the longest 
+number permitted under the ISO standard.
+										</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:minLength value="13"/>
+									<xsd:maxLength value="19"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CardToken" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="CardType" type="xsd:positiveInteger" minOccurs="0"/>
+						<xsd:element name="CardFirst6Digits" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="CardLast4Digits" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="PriorOrderNumber" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="CardVerification" type="xsd:positiveInteger" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">
+An additional cardholder verification number (printed on the card but not embossed or recorded on the 
+magnetic stripe) such as American Express' CIV, MasterCard's CVC2, and Visa's CVV2 values. Optional, 
+although many merchant banks are providing financial incentives for the use of this field.
+										</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="CardExpDateDay" type="xsd:positiveInteger" minOccurs="0"/>
+						<xsd:element name="CardExpDateMonth" type="xsd:positiveInteger"/>
+						<xsd:element name="CardExpDateYear" type="xsd:positiveInteger"/>
+						<xsd:element name="PaymentPlanID" type="xsd:positiveInteger" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">
+Defines which payment plan should be applied to the order, referenced by payment plan ID. Payment plans 
+should be set up in the OrderMotion account, and should be enabled in the Keycode being used. Payment 
+Plans can only be used with Credit Card or Electronic Check orders.
+										</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="RealTimeCreditCardProcessing" type="TrueFalse" default="False" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">
+Setting this to "True" will force orderMotion to charge/authorize the card immediately (depending on 
+the processing settings in the account). This should be used in conjunction with the "QueueFlag=False" 
+UDI parameter.
+										</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="CardStatus" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">
+This element can be used to mark the order as already authorized (status 11), or even charged (status 1).
+If the order was was charged or authorized, the authorization code (CardAuthCode) should be included. 
+If the order was authorized and the order entry system uses the same gateway as OrderMotion, the gateway
+transaction ID (CardTransactionID) should also be included.
+For pre-authorized orders, the AVS (Address verification system) and CCV results should also be submitted,
+in order to assist in fraud screening from within OrderMotion.
+										</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:nonNegativeInteger">
+									<xsd:enumeration value="0">
+										<xsd:annotation>
+											<xsd:documentation xml:lang="en">Pending (default)</xsd:documentation>
+										</xsd:annotation>
+									</xsd:enumeration>
+									<xsd:enumeration value="1">
+										<xsd:annotation>
+											<xsd:documentation xml:lang="en">Charge Approved</xsd:documentation>
+										</xsd:annotation>
+									</xsd:enumeration>
+									<xsd:enumeration value="11">
+										<xsd:annotation>
+											<xsd:documentation xml:lang="en">Authorization Approved</xsd:documentation>
+										</xsd:annotation>
+									</xsd:enumeration>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CardAuthCode" minOccurs="0">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:length value="6"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CardTransactionID" minOccurs="0">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:minLength value="0"/>
+									<xsd:maxLength value="20"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="CardAVSResult" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="CardIssueNumber" type="xsd:string" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">
+Issue Number is an additional field required when capturing Switch cards. When the card type is Switch, a value must 
+be provided for either "CardIssueNumber", or ("CardStartDateYear" and "CardStartDateMonth"), or, in some cases, both.
+The exact requirements depend on the card-issuing bank, but all information availabl on the card should always be 
+submitted.
+										</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="CardStartDateYear" type="xsd:positiveInteger" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">
+See "Issue Number", above.
+										</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="CardStartDateMonth" type="xsd:positiveInteger" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">
+See "Issue Number", above.
+										</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="CardAuthorizationAmount" type="xsd:integer" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">
+For pre-authorized UDOA orders to be accepted with the ACTUAL auth amount as reported by the remote system, rather than an assumed amount.
+If the CardAuthorizationAmount field is not specified, OM assumes that the auth amount is the OM-calculated total order amount.
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+					<xsd:sequence>
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+This sequence applies to orders with payment types 2 (cash), 3 (check), and 4 (money order).
+									</xsd:documentation>
+						</xsd:annotation>
+						<xsd:element ref="PaidAmount"/>
+						<xsd:element name="CheckNumber" minOccurs="0">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:minLength value="0"/>
+									<xsd:maxLength value="19"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:sequence>
+					<xsd:sequence>
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+This sequence applies to orders with payment type 7 - electronic check.
+									</xsd:documentation>
+						</xsd:annotation>
+						<xsd:element name="BankAccountNumber" type="xsd:string"/>
+						<xsd:element name="BankRoutingNumber" type="xsd:string"/>
+					</xsd:sequence>
+					<xsd:sequence>
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+This sequence applies to orders with payment type 13 - PayPal
+									</xsd:documentation>
+						</xsd:annotation>
+						<xsd:element name="TransactionID">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:minLength value="1"/>
+									<xsd:maxLength value="19"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="PayerID" minOccurs="0">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:minLength value="0"/>
+									<xsd:maxLength value="17"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="BuyerEmail" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">If provided validation that it is a proper email address will occur.
+									</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:minLength value="0"/>
+									<xsd:maxLength value="255"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element ref="PaidAmount"/>
+					</xsd:sequence>
+					<xsd:sequence>
+						<xsd:annotation>
+							<xsd:documentation>This sequence applies to orders with payment type 11 - Gift Certificate</xsd:documentation>
+						</xsd:annotation>
+						<xsd:element ref="PaidAmount"/>
+						<xsd:element name="GiftCertificateCode" type="xsd:string"/>
+					</xsd:sequence>
+					<xsd:sequence>
+						<xsd:annotation>
+							<xsd:documentation>This sequence applies to orders with payment type 16 - External Gift Certificate</xsd:documentation>
+						</xsd:annotation>
+						<xsd:element ref="PaidAmount"/>
+						<xsd:element name="GiftCertificateCode" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:choice>
+				<xsd:element name="AdditionalPayment" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence maxOccurs="unbounded">
+							<xsd:element ref="Payment"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="type">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">
+Payment type:
+0 - Free;
+1 - Credit Card;
+2 - Cash;
+3 - Check;
+4 - Money Order;
+5 - C.O.D.;
+6 - Open Invoice;
+7 - Electronic Check;
+8 - Other;
+10 - Pre-Bill;
+11 - Gift Certificate;
+13 - PayPal;
+16 - External Gift Certificate;
+								</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:nonNegativeInteger">
+						<xsd:enumeration value="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Free</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="1">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Credit Card</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="2">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Cash</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="3">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Check</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="4">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Money Order</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="5">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">C.O.D.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="6">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Open Invoice</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="7">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Electronic Check</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="8">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Other</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="10">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Pre-Bill</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="13">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">PayPal</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="11"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="referencePriorOrder">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="True"/>
+						<xsd:enumeration value="False"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

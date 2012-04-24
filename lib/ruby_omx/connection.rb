@@ -33,7 +33,7 @@ module RubyOmx
     # Make the request, based on the appropriate request object
     # Called from RubyOmx::Base
     def request(verb, body = nil, attempts = 0, &block)
-      request = Net::HTTP.const_get(verb.to_s.capitalize).new(@path)
+      request = Net::HTTP.const_get(verb.to_s.capitalize).new(@path, {'User-Agent' => 'ruby_omx ' + RubyOmx::VERSION})
       request.body = body
       request.content_length = request.body.size
 			request.content_type = "text/xml; charset=utf-8"
